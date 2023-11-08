@@ -1,0 +1,38 @@
+
+<%= form_for(@twet) do |form| %>
+        <% if @twet.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(twet.errors.count, "error") %> prohibited this twet from being saved:</h2>
+
+            <ul>
+              <% @twet.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <!-- Circular Image (Left) -->
+                <div class="col-md-3">
+                    <div
+                        class="rounded-circle overflow-hidden"
+                        style="width: 100px; height: 100px;">
+                        <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100
+                        img-thumbnail', alt: 'User Avatar' %>
+                    </div>
+                </div>
+                <!-- Card Content (Right) -->
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <%= form.text_area :twet , class:'form-control', rows:5 %>
+                        <div class="actions mt-2">
+                            <%= form.submit 'Create Tweet' ,class:'btn btn-primary' %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<% end %>
+
+
