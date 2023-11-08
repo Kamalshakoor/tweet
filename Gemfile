@@ -24,6 +24,9 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootstrap'
 gem 'jquery-rails'
 gem 'devise'
+gem 'guard-livereload', '~> 2.5', '>= 2.5.2'
+gem 'better_error_message', '~> 3.0'
+gem 'gravatar_image_tag', '~> 1.2'
 
 
 # Use Active Storage variant
