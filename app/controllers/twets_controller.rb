@@ -1,5 +1,6 @@
 class TwetsController < ApplicationController
   before_action :set_twet, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index,:show]
 
   # GET /twets or /twets.json
   def index
@@ -14,7 +15,7 @@ class TwetsController < ApplicationController
 
   # GET /twets/new
   def new
-    @twet = Twet.new
+    @twet = current_user.twets.build
   end
 
   # GET /twets/1/edit
@@ -23,7 +24,7 @@ class TwetsController < ApplicationController
 
   # POST /twets or /twets.json
   def create
-    @twet = Twet.new(twet_params)
+    @twet = current_user.twets.build(twet_params)
 
     respond_to do |format|
       if @twet.save
@@ -67,6 +68,6 @@ class TwetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def twet_params
-      params.require(:twet).permit(:twet)
+      params.require(:twet).permit(:twet,:user_id)
     end
 end
