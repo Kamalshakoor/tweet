@@ -3,29 +3,40 @@
         <div class="card mb-3">
             <div class="row no-gutters">
                 <!-- Circular Image (Left) -->
-                <div class="col-md-4">
-                    <div
-                        class="rounded-circle overflow-hidden"
-                        style="width: 100px; height: 100px;">
-                        <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100 img-thumbnail', alt: 'User Avatar' %>
+                <% if user_signed_in? %>
+                    <div class="col-md-4">
+                        <div
+                            class="rounded-circle overflow-hidden"
+                            style="width: 100px; height: 100px;">
+                            <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100 img-thumbnail', alt: 'User Avatar' %>
+                        </div>
                     </div>
-                </div>
-                <!-- Card Content (Right) -->
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <!-- Name (Bold) -->
-                        <h5 class="card-title font-weight-bold">John Doe</h5>
-                        <!-- Username -->
-                        <p class="card-text">@johndoe</p>
-                        <!-- Text -->
-                        <p class="card-text">Total Tweets: <%= @twets.all.count %></p>
+                    <!-- Card Content (Right) -->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Name (Bold) -->
+                            <h5 class="card-title font-weight-bold"><%= current_user.name %></h5>
+                            <!-- Username -->
+                            <p class="card-text"></p>
+                            <!-- Text -->
+                            <p class="card-text">Total Tweets: <%= current_user.twets.all.count %></p>
+                        </div>
                     </div>
-                </div>
+                <% else %>
+                    <h3 class='px-3 text-center py-5'> 
+                        Please Sign in to Share Content.
+                    
+                        <%= link_to 'Sign-In', user_session_path, class:'btn btn-outline-primary mt-3' %>      
+                    </h3>
+                <% end %>
+                
             </div>
         </div>
     </div>
     <div class="col-sm-6">
-        <%= render 'form' %>
+        <% if user_signed_in? %>
+            <%= render 'form' %>
+        <% end %>
         <% @twets.each do |twet| %>
         <div class="card mb-3">
         <div class="row no-gutters">
@@ -40,9 +51,9 @@
             <div class="col-md-9">
                     <div class="card-body">
                         <!-- Name (Bold) -->
-                        <h5 class="card-title font-weight-bold">John Doe</h5>
+                        <h5 class="card-title font-weight-bold"><%= twet.user.name %></h5>
                         <!-- Username -->
-                        <p class="card-text">@johndoe</p>
+                        <p class="card-text">@<%= twet.user.name %></p>
                         <!-- Text -->
                         <p class="card-text"><%= twet.twet %></p>
                     </div>
