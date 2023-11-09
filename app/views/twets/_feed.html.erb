@@ -8,7 +8,7 @@
                         <div
                             class="rounded-circle overflow-hidden"
                             style="width: 100px; height: 100px;">
-                            <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100 img-thumbnail', alt: 'User Avatar' %>
+                            <%= gravatar_image_tag(current_user.email,size: 64, alt: current_user.name) %>
                         </div>
                     </div>
                     <!-- Card Content (Right) -->
@@ -17,7 +17,9 @@
                             <!-- Name (Bold) -->
                             <h5 class="card-title font-weight-bold"><%= current_user.name %></h5>
                             <!-- Username -->
-                            <p class="card-text"></p>
+                            <p class="card-text">
+                                @<%= current_user.name %>
+                            </p>
                             <!-- Text -->
                             <p class="card-text">Total Tweets: <%= current_user.twets.all.count %></p>
                         </div>
@@ -41,14 +43,14 @@
         <div class="card mb-3">
         <div class="row no-gutters">
             <!-- Circular Image (Left) -->
-            <div class="col-md-3">
-            <div class="rounded-circle overflow-hidden" style="width: 100px; height: 100px;">
+            <div class="col-md-2">
+            <div class="rounded-circle overflow-hidden mt-3 ms-1" style="width: 64px; height: 64px;">
                 <!-- Placeholder Image URL -->
-                <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100 img-thumbnail', alt: 'User Avatar' %>
+                  <%= gravatar_image_tag(twet.user.email,size: 64, alt: twet.user.name) %>
             </div>
             </div>
             <!-- Card Content (Right) -->
-            <div class="col-md-9">
+            <div class="col-md-10">
                     <div class="card-body">
                         <!-- Name (Bold) -->
                         <h5 class="card-title font-weight-bold"><%= twet.user.name %></h5>
@@ -56,6 +58,16 @@
                         <p class="card-text">@<%= twet.user.name %></p>
                         <!-- Text -->
                         <p class="card-text"><%= twet.twet %></p>
+                        
+                        <% if user_signed_in? && twet.user.name == current_user.name %>
+                            <div class="row">
+                                <div class="col">
+                                    <%= link_to 'Edit', edit_twet_path(twet), class:'btn btn-outline-warning' %>
+                                    <%= link_to 'Delete', twet_path(twet), method: :delete, class:'btn btn-outline-danger' %>
+                                </div>
+                            </div>  
+                        <% end %>
+                            
                     </div>
                 
             </div>
@@ -66,26 +78,41 @@
     <div class="col-sm-3">
         <h5 class='text-center'>Other Users</h5>
          <hr />
-         <div class="card mb-3">
-            <div class="row no-gutters">
-                <!-- Circular Image (Left) -->
-                <div class="col-md-4">
-                    <div
-                        class="rounded-circle overflow-hidden"
-                        style="width: 80px; height: 80px;">
-                        <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100 img-thumbnail', alt: 'User Avatar' %>
+
+         <%# calling function from helper method %>
+
+         <% users = fetch_first_n_users(5) %>
+         <% users.each do |user| %>
+          <% if user_signed_in? && user.name == current_user.name %>
+                                <% next %>
+          <% else %>
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <!-- Circular Image (Left) -->
+                    <div class="col-md-4">
+                        <div
+                            class="rounded-circle overflow-hidden mt-3 ms-1"
+                            style="width: 64px; height: 64px;">
+                            <%= gravatar_image_tag(user.email,size: 64, alt: user.name) %>
+                        </div>
                     </div>
-                </div>
-                <!-- Card Content (Right) -->
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <!-- Name (Bold) -->
-                        <h5 class="card-title font-weight-bold">John Doe</h5>
-                        <!-- Username -->
-                        <p class="card-text">@johndoe</p>
+                    <!-- Card Content (Right) -->
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Name (Bold) -->
+                           
+                            <h5 class="card-title font-weight-bold"><%= user.username %></h5>
+                            <!-- Username -->
+                            <p class="card-text">@<%= user.name %></p>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            
+          <% end %>          
+         <% end %>
+            
     </div>
 </div>
