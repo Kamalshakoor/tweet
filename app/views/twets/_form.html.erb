@@ -11,19 +11,18 @@
             </ul>
           </div>
         <% end %>
-        <div class="card mb-3">
+        <div class="card mb-3 border shadow">
             <div class="row no-gutters">
                 <!-- Circular Image (Left) -->
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div
-                        class="rounded-circle overflow-hidden"
+                        class="rounded-circle overflow-hidden mt-3 ms-1"
                         style="width: 100px; height: 100px;">
-                        <%= image_tag 'https://via.placeholder.com/100x100', class: 'w-100 h-100
-                        img-thumbnail', alt: 'User Avatar' %>
+                        <%= gravatar_image_tag(current_user.email,size: 100, alt: current_user.name) %>
                     </div>
                 </div>
                 <!-- Card Content (Right) -->
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="card-body">
                         <%= form.text_area :twet , class:'form-control', rows:5 %>
                         <div class="actions mt-2">
